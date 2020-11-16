@@ -15,7 +15,7 @@ export default ({ day, forecast }) => {
           loop={true}
           autoPlay={true}
           progress={0}
-          speed={1}
+          speed={2}
           style={styles.icon}
         />
         <Text style={[styles.text, styles.day]}>{day}</Text>

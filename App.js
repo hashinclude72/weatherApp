@@ -32,7 +32,7 @@ const App: () => React$Node = () => {
         ) : error ? (
           <Error getWeather={getWeather} error={error} />
         ) : (
-          <Home weather={weather} forecast={forecast} />
+          <Home weather={weather} forecast={forecast} getWeather={getWeather} />
         )}
       </SafeAreaProvider>
     </>

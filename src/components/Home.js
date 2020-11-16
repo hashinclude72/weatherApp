@@ -1,15 +1,20 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 
 import WeekDays from './WeekDays';
 import Today from './Today';
 
-export default ({ weather, forecast }) => {
+export default ({ weather, forecast, getWeather }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={false} onRefresh={getWeather} />
+      }
+    >
       <Today weather={weather} />
       <WeekDays forecast={forecast} />
-    </View>
+    </ScrollView>
   );
 };
 

@@ -14,6 +14,8 @@ export default () => {
   const [forecast, setForecast] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [weatherLoading, setWeatherLoading] = useState(true);
+  const [forecastLoading, setForecastLoading] = useState(true);
 
   const {
     data: location,
@@ -24,10 +26,18 @@ export default () => {
 
   useEffect(() => {
     if (location) {
+      setWeatherLoading(true);
+      setForecastLoading(true);
       fetchWeather('/weather');
       fetchWeather('/onecall');
     }
   }, [location]);
+
+  useEffect(() => {
+    if (!weatherLoading && !forecastLoading) {
+      setIsLoading(false);
+    }
+  }, [weatherLoading, forecastLoading]);
 
   useEffect(() => {
     if (locationError) {
@@ -57,9 +67,10 @@ export default () => {
       }
       if (url === '/weather') {
         setWeather(response.data);
+        setWeatherLoading(false);
       } else {
         setForecast(response.data);
-        setIsLoading(false);
+        setForecastLoading(false);
       }
     } catch (err) {
       console.log('Connection failed');
