@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 
 export default () => {
@@ -17,17 +17,17 @@ export default () => {
     request(
       Platform.OS === 'ios'
         ? PERMISSIONS.IOS.LOCATION_ALWAYS
-        : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+        : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
     ).then((result) => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
           console.log(
-            'This feature is not available (on this device / in this context)',
+            'This feature is not available (on this device / in this context)'
           );
           break;
         case RESULTS.DENIED:
           console.log(
-            'The permission has not been requested / is denied but requestable',
+            'The permission has not been requested / is denied but requestable'
           );
           break;
         case RESULTS.GRANTED:
@@ -53,7 +53,7 @@ export default () => {
             setError(err.message);
             setIsLoading(false);
           },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
       } else if (!hasLocationPermission) {
         setError('Location permission not granted');
@@ -62,5 +62,5 @@ export default () => {
     });
   };
 
-  return {data, error, isLoading, getLocation};
+  return { data, error, isLoading, getLocation };
 };

@@ -3,7 +3,8 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import moment from 'moment';
 
-export default ({ weather }) => {
+export default ({ weather, forecast }) => {
+  console.log('home weather', weather);
   const weekDays = [
     'Sunday',
     'Monday',
@@ -21,16 +22,14 @@ export default ({ weather }) => {
             {moment().format('dddd, D MMM h:m a')}
           </Text>
           <Text style={[styles.text, styles.temp]}>
-            {Math.round(weather.current.temp)}&deg;
+            {Math.round(weather.main.temp)}&deg;
           </Text>
-          <Text style={[styles.text, styles.location]}>Delhi</Text>
+          <Text style={[styles.text, styles.location]}>{weather.name}</Text>
           <Text style={[styles.text, styles.feels]}>
-            {Math.round(weather.daily[0].temp.max)}&deg;/
-            {Math.round(weather.daily[0].temp.min)}&deg; Feels Like{' '}
-            {Math.round(weather.current.feels_like)}&deg;
+            Feels Like {Math.round(weather.main.feels_like)}&deg;
           </Text>
           <Text style={[styles.text, styles.weather]}>
-            {weather.current.weather[0].main}
+            {weather.weather[0].main}
           </Text>
         </View>
         <View style={[styles.days]}></View>
