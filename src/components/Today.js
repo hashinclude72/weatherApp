@@ -2,17 +2,28 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+import LottieView from 'lottie-react-native';
 
 import LiveTime from './LiveTime';
-import { round } from '../utils';
+import { round, weatherIcons } from '../utils';
 
 export default ({ weather }) => {
   return (
     <View style={[styles.container]}>
       <LiveTime />
-      <Text style={[styles.text, styles.temp]}>
-        {round(weather.main.temp)}&deg;
-      </Text>
+      <View style={styles.iconContainer}>
+        <LottieView
+          source={weatherIcons[weather.weather[0].icon]}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          speed={1}
+          style={styles.icon}
+        />
+        <Text style={[styles.text, styles.temp]}>
+          {round(weather.main.temp)}&deg;
+        </Text>
+      </View>
       <Text style={[styles.text, styles.location]}>{weather.name}</Text>
       <Text style={[styles.text, styles.feels]}>
         Feels Like {round(weather.main.feels_like)}&deg;
@@ -37,8 +48,17 @@ const styles = StyleSheet.create({
     color: '#d1d1d1',
     justifyContent: 'center',
   },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    width: RFValue(70),
+    height: RFValue(70),
+  },
   temp: {
-    fontSize: RFValue(50),
+    fontSize: RFValue(70),
   },
   location: {
     fontSize: RFValue(30),

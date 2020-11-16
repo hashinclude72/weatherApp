@@ -1,5 +1,5 @@
 import useWeather from './useWeather';
 import useLocation from './useLocation';
-import { round, floor, ceil } from './utils';
+import { round, floor, ceil, weatherIcons } from './utils';
 
-export { useWeather, useLocation, round, floor, ceil };
+export { useWeather, useLocation, round, floor, ceil, weatherIcons };

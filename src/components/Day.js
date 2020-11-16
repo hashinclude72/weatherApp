@@ -2,19 +2,30 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+import LottieView from 'lottie-react-native';
 
-import { round } from '../utils';
+import { round, weatherIcons } from '../utils';
 
 export default ({ day, forecast }) => {
   return (
     <View style={styles.container}>
-      <Text style={[styles.text, styles.day]}>{day}</Text>
+      <View style={styles.dayIconContainer}>
+        <LottieView
+          source={weatherIcons[forecast.weather[0].icon]}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          speed={1}
+          style={styles.icon}
+        />
+        <Text style={[styles.text, styles.day]}>{day}</Text>
+      </View>
       <View>
         <Text style={[styles.text, styles.weather]}>
           {forecast.weather[0].main}
         </Text>
         <Text style={[styles.text, styles.temp]}>
-          {round(forecast.temp.max)}&deg;/{round(forecast.temp.min)}&deg;
+          {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
         </Text>
       </View>
     </View>
@@ -32,10 +43,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1c1c1c',
   },
+  dayIconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     color: '#d1d1d1',
   },
   day: {
+    marginLeft: RFValue(15),
     fontSize: RFValue(25),
   },
   temp: {
@@ -44,5 +61,9 @@ const styles = StyleSheet.create({
   weather: {
     color: '#8c8c8c',
     fontSize: RFValue(12),
+  },
+  icon: {
+    width: RFValue(30),
+    height: RFValue(30),
   },
 });
