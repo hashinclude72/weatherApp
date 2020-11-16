@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 import Toast from 'react-native-simple-toast';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export default ({ getWeather, error }) => {
   useEffect(() => {
@@ -56,22 +57,27 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   errorText: {
-    fontSize: 80,
+    fontSize: RFValue(60),
     color: 'grey',
-    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    textAlign: 'center',
+    // padding: 20,
   },
   retry: {
     borderWidth: 1,
     borderColor: 'grey',
-    borderRadius: 10,
+    borderRadius: 5,
     padding: 15,
-    marginTop: 100,
-    width: 150,
+    paddingHorizontal: 20,
+    marginTop: RFValue(60),
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
   retryText: {
-    fontSize: 25,
+    fontSize: RFValue(25),
     justifyContent: 'center',
   },
 });

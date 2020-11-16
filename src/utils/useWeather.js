@@ -25,7 +25,7 @@ export default () => {
   useEffect(() => {
     if (location) {
       fetchWeather('/weather');
-      fetchWeather('/forecast');
+      fetchWeather('/onecall');
     }
   }, [location]);
 
@@ -51,7 +51,7 @@ export default () => {
         units: 'metric',
         appid: WEATHER_API_KEY,
       });
-      console.log('fetchWeather : ', url, response.data);
+      console.log('fetchWeather : ', url, response.ok);
       if (!response.ok) {
         setError('Network error');
       }
@@ -59,8 +59,8 @@ export default () => {
         setWeather(response.data);
       } else {
         setForecast(response.data);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } catch (err) {
       console.log('Connection failed');
       setError('Connection failed');

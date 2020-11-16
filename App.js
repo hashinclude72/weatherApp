@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 

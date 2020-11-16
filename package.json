@@ -19,6 +19,7 @@
     "react-native-dotenv": "^2.4.2",
     "react-native-geolocation-service": "^5.0.0",
     "react-native-permissions": "^2.2.2",
+    "react-native-responsive-fontsize": "^0.5.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-simple-toast": "^1.1.3"
   },
