@@ -7,7 +7,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {create} from 'apisauce';
@@ -15,6 +15,7 @@ import {create} from 'apisauce';
 import SplashyLoader from './src/components/SplashyLoader';
 import Home from './src/components/Home';
 import Error from './src/components/Error';
+import useLocation from './src/utils/useLocation';
 
 const weatherApi = create({
   baseURL: 'https://api.openweathermap.org/data/2.5',
@@ -24,17 +25,29 @@ const App: () => React$Node = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
+  const {
+    data: location,
+    error: locationError,
+    isLoading: locationIsLoading,
+    getLocation,
+  } = useLocation();
 
   useEffect(() => {
-    fetchWeather();
+    getLocation();
   }, []);
+
+  useEffect(() => {
+    if (location) {
+      fetchWeather();
+    }
+  }, [location]);
 
   const fetchWeather = async () => {
     setError();
     try {
       const response = await weatherApi.get('/onecall', {
-        lat: 31.91,
-        lon: 76.72,
+        lat: location.latitude,
+        lon: location.longitude,
         exclude: 'minutely,hourly',
         units: 'metric',
         appid: '95751c1012c19df3754e2845e8fa3ff3',
@@ -55,24 +68,11 @@ const App: () => React$Node = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaProvider>
-        {error ? <Error /> : <Home weather={weather} />}
+        {error || locationError ? <Error /> : <Home weather={weather} />}
         {isLoading && <SplashyLoader />}
       </SafeAreaProvider>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'stretch',
-  },
-  days: {
-    borderWidth: 2,
-    flex: 1,
-  },
-});
 
 export default App;
