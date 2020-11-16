@@ -14,6 +14,7 @@ import {create} from 'apisauce';
 
 import SplashyLoader from './src/components/SplashyLoader';
 import Home from './src/components/Home';
+import Error from './src/components/Error';
 
 const weatherApi = create({
   baseURL: 'https://api.openweathermap.org/data/2.5',
@@ -29,6 +30,7 @@ const App: () => React$Node = () => {
   }, []);
 
   const fetchWeather = async () => {
+    setError();
     try {
       const response = await weatherApi.get('/onecall', {
         lat: 31.91,
@@ -38,6 +40,9 @@ const App: () => React$Node = () => {
         appid: '95751c1012c19df3754e2845e8fa3ff3',
       });
       console.log('fetchWeather : ', response);
+      if (!response.ok) {
+        setError('Network error');
+      }
       setWeather(response.data);
       setIsLoading(false);
     } catch (err) {
@@ -50,7 +55,7 @@ const App: () => React$Node = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaProvider>
-        <Home weather={weather} />
+        {error ? <Error /> : <Home weather={weather} />}
         {isLoading && <SplashyLoader />}
       </SafeAreaProvider>
     </>
