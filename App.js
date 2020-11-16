@@ -6,11 +6,12 @@
  * @flow strict-local
  */
 
-import React, {useEffect, useState} from 'react';
-import {StatusBar} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar } from 'react-native';
 
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {create} from 'apisauce';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { create } from 'apisauce';
+import { WEATHER_API_KEY, WEATHER_BASE_URL } from '@env';
 
 import SplashyLoader from './src/components/SplashyLoader';
 import Home from './src/components/Home';
@@ -18,7 +19,7 @@ import Error from './src/components/Error';
 import useLocation from './src/utils/useLocation';
 
 const weatherApi = create({
-  baseURL: 'https://api.openweathermap.org/data/2.5',
+  baseURL: WEATHER_BASE_URL,
 });
 
 const App: () => React$Node = () => {
@@ -50,7 +51,7 @@ const App: () => React$Node = () => {
         lon: location.longitude,
         exclude: 'minutely,hourly',
         units: 'metric',
-        appid: '95751c1012c19df3754e2845e8fa3ff3',
+        appid: WEATHER_API_KEY,
       });
       console.log('fetchWeather : ', response);
       if (!response.ok) {
