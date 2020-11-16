@@ -67,10 +67,15 @@ const App: () => React$Node = () => {
   };
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
       <SafeAreaProvider>
-        {error || locationError ? <Error /> : <Home weather={weather} />}
-        {isLoading && <SplashyLoader />}
+        {isLoading ? (
+          <SplashyLoader />
+        ) : error || locationError ? (
+          <Error getWeather={getLocation} error={error} />
+        ) : (
+          <Home weather={weather} />
+        )}
       </SafeAreaProvider>
     </>
   );
