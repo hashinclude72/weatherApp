@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     textAlign: 'center',
-    // padding: 20,
   },
   retry: {
     borderWidth: 1,

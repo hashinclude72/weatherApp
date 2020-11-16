@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import moment from 'moment';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import LiveTime from './LiveTime';
 import { round } from '../utils';
 
 export default ({ weather }) => {
   return (
     <View style={[styles.container]}>
-      <Text style={[styles.text, styles.time]}>
-        {moment().format('dddd, D MMM h:m a')}
-      </Text>
+      <LiveTime />
       <Text style={[styles.text, styles.temp]}>
         {round(weather.main.temp)}&deg;
       </Text>
@@ -38,10 +36,6 @@ const styles = StyleSheet.create({
     padding: 5,
     color: '#d1d1d1',
     justifyContent: 'center',
-  },
-  time: {
-    color: '#8c8c8c',
-    fontSize: RFValue(17),
   },
   temp: {
     fontSize: RFValue(50),
