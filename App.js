@@ -53,7 +53,7 @@ const App: () => React$Node = () => {
         units: 'metric',
         appid: WEATHER_API_KEY,
       });
-      console.log('fetchWeather : ', response);
+      console.log('fetchWeather ok: ', response.ok);
       if (!response.ok) {
         setError('Network error');
       }

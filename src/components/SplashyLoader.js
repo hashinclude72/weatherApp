@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import LottieView from 'lottie-react-native';
 export default () => {
@@ -20,10 +20,12 @@ export default () => {
 const styles = StyleSheet.create({
   loaderContainer: {
     position: 'absolute',
-    top: '45%',
-    left: '50%',
-    right: 0,
+    width: '100%',
+    height: '100%',
     margin: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
   },
   loader: {
     width: 100,
