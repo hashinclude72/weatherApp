@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import LottieView from 'lottie-react-native';
+import { useSelector } from 'react-redux';
 
-import { WeatherContext } from '../utils';
 export default () => {
-  const { state } = useContext(WeatherContext);
-  const { weather, forecast } = state;
+  const { weather, forecast } = useSelector((state) => state);
 
   return (
     <View

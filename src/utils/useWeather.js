@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { create } from 'apisauce';
 import { WEATHER_API_KEY, WEATHER_BASE_URL } from '@env';
+import { useDispatch } from 'react-redux';
 
 import useLocation from './useLocation';
 
@@ -9,13 +10,15 @@ const weatherApi = create({
   baseURL: WEATHER_BASE_URL,
 });
 
-export default ({ dispatch }) => {
+export default () => {
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [forecastLoading, setForecastLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   const {
     data: location,
@@ -70,6 +73,10 @@ export default ({ dispatch }) => {
   const fetchWeather = async (url) => {
     // get weather data from openweathermap.org
     setError();
+    dispatch({
+      type: 'error',
+      payload: null,
+    });
     try {
       const response = await weatherApi.get('/' + url, {
         lat: location.latitude,

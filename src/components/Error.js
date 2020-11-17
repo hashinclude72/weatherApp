@@ -1,14 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 import Toast from 'react-native-simple-toast';
 import { RFValue } from 'react-native-responsive-fontsize';
-
-import { WeatherContext } from '../utils';
+import { useSelector } from 'react-redux';
 
 export default ({ getWeather }) => {
-  const { state } = useContext(WeatherContext);
-  const { error } = state;
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
     if (error) {

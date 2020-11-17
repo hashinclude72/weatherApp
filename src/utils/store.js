@@ -1,15 +1,13 @@
-import { createContext } from 'react';
+import { createStore } from 'redux';
 
-export const WeatherContext = createContext();
-
-export const initialState = {
+const initialState = {
   weather: null,
   forecast: null,
   error: null,
   isLoading: true,
 };
 
-export const reducer = (state, action) => {
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'weather': {
       return {
@@ -39,3 +37,5 @@ export const reducer = (state, action) => {
       return state;
   }
 };
+
+export const store = createStore(rootReducer);
