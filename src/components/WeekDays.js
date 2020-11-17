@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import moment from 'moment';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import Day from './Day';
+import { WeatherContext } from '../utils';
 
-export default ({ forecast }) => {
+export default () => {
   const [today] = useState(moment().format('dddd'));
   const [dayNames, setDayNames] = useState();
+
+  const { state } = useContext(WeatherContext);
+  const { forecast } = state;
 
   useEffect(() => {
     let weekDays = [

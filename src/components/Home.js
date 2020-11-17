@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import WeekDays from './WeekDays';
 import Today from './Today';
 
-export default ({ weather, forecast, getWeather }) => {
+export default ({ getWeather }) => {
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -12,8 +12,8 @@ export default ({ weather, forecast, getWeather }) => {
         <RefreshControl refreshing={false} onRefresh={getWeather} />
       }
     >
-      <Today weather={weather} />
-      <WeekDays forecast={forecast} />
+      <Today />
+      <WeekDays />
     </ScrollView>
   );
 };

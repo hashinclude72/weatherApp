@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 import Toast from 'react-native-simple-toast';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-export default ({ getWeather, error }) => {
+import { WeatherContext } from '../utils';
+
+export default ({ getWeather }) => {
+  const { state } = useContext(WeatherContext);
+  const { error } = state;
+
   useEffect(() => {
     if (error) {
       Toast.show(error, Toast.SHORT);

@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import LottieView from 'lottie-react-native';
+
+import { WeatherContext } from '../utils';
 export default () => {
+  const { state } = useContext(WeatherContext);
+  const { weather, forecast } = state;
+
   return (
-    <View style={styles.loaderContainer}>
+    <View
+      style={[
+        styles.loaderContainer,
+        { height: weather && forecast ? null : '100%' },
+      ]}
+    >
       <LottieView
         source={require('../lotties/splashy-loader.json')}
         loop={true}
@@ -20,12 +30,12 @@ export default () => {
 const styles = StyleSheet.create({
   loaderContainer: {
     position: 'absolute',
+    paddingTop: 10,
     width: '100%',
-    height: '100%',
     margin: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   loader: {
     width: 100,

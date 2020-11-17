@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
 
 import LiveTime from './LiveTime';
-import { round, weatherIcons } from '../utils';
+import { round, weatherIcons, WeatherContext } from '../utils';
 
-export default ({ weather }) => {
+export default () => {
+  const { state } = useContext(WeatherContext);
+  const { weather } = state;
+
   return (
     <View style={[styles.container]}>
       <LiveTime />

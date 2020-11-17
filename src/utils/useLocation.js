@@ -40,6 +40,7 @@ export default () => {
       }
       if (hasLocationPermission) {
         Geolocation.getCurrentPosition(
+          // get current location from native GPS service
           (position) => {
             console.log('get location : ', position);
             setIsLoading(false);

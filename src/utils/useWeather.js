@@ -9,7 +9,7 @@ const weatherApi = create({
   baseURL: WEATHER_BASE_URL,
 });
 
-export default () => {
+export default ({ dispatch }) => {
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [error, setError] = useState(null);
@@ -28,14 +28,18 @@ export default () => {
     if (location) {
       setWeatherLoading(true);
       setForecastLoading(true);
-      fetchWeather('/weather');
-      fetchWeather('/onecall');
+      fetchWeather('weather');
+      fetchWeather('onecall');
     }
   }, [location]);
 
   useEffect(() => {
     if (!weatherLoading && !forecastLoading) {
       setIsLoading(false);
+      dispatch({
+        type: 'isLoading',
+        payload: false,
+      });
     }
   }, [weatherLoading, forecastLoading]);
 
@@ -45,8 +49,21 @@ export default () => {
     }
   }, [locationError]);
 
+  useEffect(() => {
+    if (error) {
+      dispatch({
+        type: 'error',
+        payload: error,
+      });
+    }
+  }, [error]);
+
   const getWeather = () => {
     setIsLoading(true);
+    dispatch({
+      type: 'isLoading',
+      payload: true,
+    });
     getLocation();
   };
 
@@ -54,7 +71,7 @@ export default () => {
     // get weather data from openweathermap.org
     setError();
     try {
-      const response = await weatherApi.get(url, {
+      const response = await weatherApi.get('/' + url, {
         lat: location.latitude,
         lon: location.longitude,
         exclude: 'minutely,hourly',
@@ -65,7 +82,12 @@ export default () => {
       if (!response.ok) {
         setError('Network error');
       }
-      if (url === '/weather') {
+      dispatch({
+        type: url,
+        payload: response.data,
+      });
+
+      if (url === 'weather') {
         setWeather(response.data);
         setWeatherLoading(false);
       } else {
