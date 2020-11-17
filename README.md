@@ -25,7 +25,7 @@ yarn run android
 * Swipe down to relaod
 * Toast popup in error screen for detailed errors
 * `Redux` used in `main` branch and `React Context` is used in `context-api` branch
-* Weather icons lottie animations
+* Weather icons are lottie animations
 
 ### Custom Hooks
 
