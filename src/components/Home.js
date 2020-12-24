@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
 
 import { useSelector } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 import Error from './Error';
 import SplashyLoader from './SplashyLoader';
@@ -15,6 +16,7 @@ export default () => {
   const { getWeather } = useWeather();
 
   useEffect(() => {
+    // SplashScreen.hide();
     getWeather();
   }, []);
 
@@ -36,7 +38,7 @@ export default () => {
           </ScrollView>
         )
       )}
-      {isLoading && <SplashyLoader />}
+      {/* {isLoading && <SplashyLoader />} */}
     </View>
   );
 };

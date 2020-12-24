@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 import LiveTime from './LiveTime';
 import { round, weatherIcons } from '../utils';
 
 export default () => {
   const weather = useSelector((state) => state.weather);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <View style={[styles.container]}>
