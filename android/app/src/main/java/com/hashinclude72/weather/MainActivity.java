@@ -1,4 +1,4 @@
-package com.weatherapp;
+package com.hashinclude72.weather;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
@@ -12,7 +12,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "weatherApp";
+    return "Weather";
   }
 
   @Override

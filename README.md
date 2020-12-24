@@ -1,4 +1,4 @@
-# weatherApp
+# Weather
 just another weather app
 
 ### Packages

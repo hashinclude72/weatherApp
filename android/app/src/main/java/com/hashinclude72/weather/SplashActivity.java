@@ -1,4 +1,4 @@
-package com.weatherapp;
+package com.hashinclude72.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
