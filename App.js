@@ -12,7 +12,7 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 
-import Home from './src/components/Home';
+import Navigation from './src/components/Navigation';
 import { store } from './src/utils';
 
 const App: () => React$Node = () => {
@@ -20,7 +20,7 @@ const App: () => React$Node = () => {
     <Provider store={store}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <SafeAreaProvider>
-        <Home />
+        <Navigation />
       </SafeAreaProvider>
     </Provider>
   );

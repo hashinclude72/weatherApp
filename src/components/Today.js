@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import IconI from 'react-native-vector-icons/Ionicons';
 
 import LiveTime from './LiveTime';
-import { round, weatherIcons } from '../utils';
+import { round, weatherIcons, RootNavigation } from '../utils';
 
 export default () => {
   const weather = useSelector((state) => state.weather);
@@ -39,6 +40,14 @@ export default () => {
       <Text style={[styles.text, styles.weather]}>
         {weather.weather[0].main}
       </Text>
+      <Pressable
+        style={styles.settings}
+        onPress={() => {
+          RootNavigation.navigate('Settings');
+        }}
+      >
+        <IconI name="settings-sharp" size={RFValue(30)} color="white" />
+      </Pressable>
     </View>
   );
 };
@@ -77,5 +86,10 @@ const styles = StyleSheet.create({
   },
   weather: {
     fontSize: RFValue(17),
+  },
+  settings: {
+    position: 'absolute',
+    right: RFValue(30),
+    bottom: RFValue(20),
   },
 });

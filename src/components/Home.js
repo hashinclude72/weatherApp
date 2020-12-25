@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
 
 import { useSelector } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
 
 import Error from './Error';
 import SplashyLoader from './SplashyLoader';
@@ -10,13 +9,13 @@ import WeekDays from './WeekDays';
 import Today from './Today';
 import { useWeather } from '../utils';
 
-export default () => {
+export default ({ navigation }) => {
   const { error, isLoading, weather, forecast } = useSelector((state) => state);
 
   const { getWeather } = useWeather();
 
   useEffect(() => {
-    // SplashScreen.hide();
+    navigation.setOptions({ headerShown: false });
     getWeather();
   }, []);
 
