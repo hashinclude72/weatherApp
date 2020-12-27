@@ -7,21 +7,22 @@
  */
 
 import React from 'react';
-import { StatusBar } from 'react-native';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 
-import Navigation from './src/components/Navigation';
+import Theme from './src/containers/Theme';
+import StackNavigation from './src/containers/StackNavigation';
 import { store } from './src/utils';
 
 const App: () => React$Node = () => {
   return (
     <Provider store={store}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <SafeAreaProvider>
-        <Navigation />
-      </SafeAreaProvider>
+      <Theme>
+        <SafeAreaProvider>
+          <StackNavigation />
+        </SafeAreaProvider>
+      </Theme>
     </Provider>
   );
 };

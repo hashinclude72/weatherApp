@@ -1,7 +1,7 @@
 import useWeather from './useWeather';
 import useLocation from './useLocation';
 import { round, floor, ceil, weatherIcons } from './utils';
-import * as RootNavigation from './RootNavigation';
+import * as rootNavigation from './rootNavigation';
 import { store } from './store';
 
 export {
@@ -12,5 +12,5 @@ export {
   ceil,
   weatherIcons,
   store,
-  RootNavigation,
+  rootNavigation,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
 
+import styled from 'styled-components/native';
 import moment from 'moment';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useSelector } from 'react-redux';
@@ -35,22 +35,17 @@ export default () => {
   }, [today]);
 
   return (
-    <View style={styles.container}>
+    <Container>
       {dayNames &&
         dayNames.map((day, index) => (
           <Day key={index} day={day} forecast={forecast.daily[index + 1]} />
         ))}
-    </View>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: RFValue(10),
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'stretch',
-    backgroundColor: '#000',
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  justify-content: space-around;
+  padding-horizontal: ${RFValue(10)}px;
+`;
