@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import moment from 'moment';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useSelector } from 'react-redux';
 
 export default () => {
+  const timeFormat = useSelector((state) => state.timeFormat);
   const [currTime, setCurrTime] = useState(moment());
 
   useEffect(() => {
@@ -14,7 +16,13 @@ export default () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <Time>{moment(currTime).format('dddd, D MMM h:m a')}</Time>;
+  return (
+    <Time>
+      {timeFormat === '24'
+        ? moment(currTime).format('dddd, D MMM HH:mm')
+        : moment(currTime).format('dddd, D MMM h:m a')}
+    </Time>
+  );
 };
 
 const Time = styled.Text`

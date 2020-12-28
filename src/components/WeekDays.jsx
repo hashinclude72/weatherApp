@@ -5,6 +5,8 @@ import moment from 'moment';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useSelector } from 'react-redux';
 
+import { StyledTouchableScale } from './StyledComponents';
+import { rootNavigation } from '../utils';
 import Day from './Day';
 
 export default () => {
@@ -38,7 +40,16 @@ export default () => {
     <Container>
       {dayNames &&
         dayNames.map((day, index) => (
-          <Day key={index} day={day} forecast={forecast.daily[index + 1]} />
+          <StyledTouchableScale
+            key={index}
+            onPress={() =>
+              rootNavigation.navigate('DayDetails', {
+                forecast: forecast.daily[index + 1],
+              })
+            }
+          >
+            <Day day={day} forecast={forecast.daily[index + 1]} />
+          </StyledTouchableScale>
         ))}
     </Container>
   );

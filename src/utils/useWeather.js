@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { create } from 'apisauce';
 import { WEATHER_API_KEY, WEATHER_BASE_URL } from '@env';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useLocation from './useLocation';
 
@@ -18,6 +18,7 @@ export default () => {
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [forecastLoading, setForecastLoading] = useState(true);
 
+  const units = useSelector((state) => state.units);
   const dispatch = useDispatch();
 
   const {
@@ -28,12 +29,13 @@ export default () => {
   } = useLocation();
 
   useEffect(() => {
-    if (location) {
+    if (!locationIsLoading && location) {
       setWeatherLoading(true);
       setForecastLoading(true);
       fetchWeather('weather');
       fetchWeather('onecall');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   useEffect(() => {
@@ -44,22 +46,21 @@ export default () => {
         payload: false,
       });
     }
-  }, [weatherLoading, forecastLoading]);
+  }, [weatherLoading, forecastLoading, dispatch]);
 
   useEffect(() => {
-    if (locationError) {
-      setError(locationError);
-    }
-  }, [locationError]);
-
-  useEffect(() => {
-    if (error) {
+    if (locationError || error) {
       dispatch({
         type: 'error',
-        payload: error,
+        payload: locationError || error,
+      });
+      setIsLoading(false);
+      dispatch({
+        type: 'isLoading',
+        payload: false,
       });
     }
-  }, [error]);
+  }, [locationError, error, dispatch]);
 
   const getWeather = () => {
     setIsLoading(true);
@@ -67,32 +68,34 @@ export default () => {
       type: 'isLoading',
       payload: true,
     });
-    getLocation();
-  };
-
-  const fetchWeather = async (url) => {
-    // get weather data from openweathermap.org
     setError();
     dispatch({
       type: 'error',
       payload: null,
     });
+    getLocation();
+  };
+
+  const fetchWeather = async (url) => {
+    // get weather data from openweathermap.org
     try {
       const response = await weatherApi.get('/' + url, {
         lat: location.latitude,
         lon: location.longitude,
-        exclude: 'minutely,hourly',
-        units: 'metric',
+        units: units,
         appid: WEATHER_API_KEY,
       });
       console.log('fetchWeather : ', url, response.ok);
-      if (!response.ok) {
-        setError('Network error');
+      if (!response.ok || !response.data) {
+        setError('Check your connection');
       }
-      dispatch({
-        type: url,
-        payload: response.data,
-      });
+
+      if (response.data) {
+        dispatch({
+          type: url,
+          payload: response.data,
+        });
+      }
 
       if (url === 'weather') {
         setWeather(response.data);
@@ -103,7 +106,7 @@ export default () => {
       }
     } catch (err) {
       console.log('Connection failed');
-      setError('Connection failed');
+      setError('Connection Failed');
       setIsLoading(false);
     }
   };

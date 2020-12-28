@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import styled from 'styled-components/native';
-import Toast from 'react-native-simple-toast';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
@@ -10,15 +9,9 @@ export default ({ getWeather }) => {
   const error = useSelector((state) => state.error);
   const themeContext = useContext(ThemeContext);
 
-  useEffect(() => {
-    if (error) {
-      Toast.show(error, Toast.SHORT);
-    }
-  }, [error]);
-
   return (
     <Container>
-      <ErrorText>Something Went Wrong at our End</ErrorText>
+      <ErrorText>{error}</ErrorText>
       <RetryButton
         onPress={() => getWeather()}
         android_ripple={{

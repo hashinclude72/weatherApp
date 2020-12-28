@@ -42,7 +42,7 @@ export default () => {
         Geolocation.getCurrentPosition(
           // get current location from native GPS service
           (position) => {
-            console.log('get location : ', position);
+            console.log('get location');
             setIsLoading(false);
             setData({
               latitude: position.coords.latitude,
@@ -57,7 +57,7 @@ export default () => {
           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
       } else if (!hasLocationPermission) {
-        setError('Location permission not granted');
+        setError('Please grant location permission');
         setIsLoading(false);
       }
     });

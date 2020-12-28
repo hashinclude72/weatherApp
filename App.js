@@ -19,9 +19,9 @@ const App: () => React$Node = () => {
   return (
     <Provider store={store}>
       <Theme>
-        <SafeAreaProvider>
-          <StackNavigation />
-        </SafeAreaProvider>
+        {/* <SafeAreaProvider> */}
+        <StackNavigation />
+        {/* </SafeAreaProvider> */}
       </Theme>
     </Provider>
   );

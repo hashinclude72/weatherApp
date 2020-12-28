@@ -1,61 +1,67 @@
-import React, { useEffect } from 'react';
-import {
-  RefreshControl,
-  View,
-  Text,
-  useWindowDimensions,
-  StatusBar,
-} from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { RefreshControl, View, Text, Dimensions } from 'react-native';
 
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
-import { useHeaderHeight } from '@react-navigation/stack';
+import Toast from 'react-native-simple-toast';
+import { ThemeContext } from 'styled-components';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import Error from '../components/Error';
 import WeekDays from '../components/WeekDays';
 import Today from '../components/Today';
-import { useWeather } from '../utils';
+import { useWeather, useStorage } from '../utils';
 
 export default ({ navigation }) => {
-  const windowHeight = useWindowDimensions().height;
-  const headerHeight = useHeaderHeight();
+  const screenHeight = Dimensions.get('screen').height;
+  const themeContext = useContext(ThemeContext);
   const { error, isLoading, weather, forecast } = useSelector((state) => state);
   const { getWeather } = useWeather();
+  const fetchStorage = useStorage();
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
     getWeather();
+    fetchStorage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      Toast.show(error, Toast.SHORT);
+    }
+  }, [error]);
   return (
     <Container>
-      {error ? (
-        <Error getWeather={getWeather} />
-      ) : (
-        weather &&
-        forecast && (
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={isLoading} onRefresh={getWeather} />
-            }
+      {weather && forecast ? (
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              size={10}
+              refreshing={isLoading}
+              onRefresh={getWeather}
+              tintColor={themeContext.colors.primary}
+              progressBackgroundColor={themeContext.colors.backgroundAlt}
+              colors={[themeContext.colors.primary]}
+              progressViewOffset={RFValue(20)}
+            />
+          }
+        >
+          <View
+            style={{
+              height: screenHeight,
+            }}
           >
-            <View
-              style={{
-                height:
-                  windowHeight - headerHeight - (StatusBar.currentHeight || 0),
-              }}
-            >
-              <Today />
-              <WeekDays />
-            </View>
-            <View style={{ height: 50 }}>
-              <Text>text</Text>
-            </View>
-          </ScrollView>
-        )
+            <Today />
+            <WeekDays />
+          </View>
+          <View style={{ height: 50 }}>
+            <Text>text</Text>
+          </View>
+        </ScrollView>
+      ) : (
+        error && <Error getWeather={getWeather} />
       )}
-      {/* {isLoading && <SplashyLoader />} */}
     </Container>
   );
 };

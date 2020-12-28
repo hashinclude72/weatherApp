@@ -5,31 +5,28 @@ import styled, { css } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
 
-import { StyledTouchableScale } from './StyledComponents';
-import { round, weatherIcons, rootNavigation } from '../utils';
+import { round, weatherIcons } from '../utils';
 
 export default ({ day, forecast }) => {
   return (
-    <StyledTouchableScale onPress={() => rootNavigation.navigate('DayDetails')}>
-      <Container>
-        <DayIcon>
-          <WeatherIcon
-            source={weatherIcons[forecast.weather[0].icon]}
-            loop={true}
-            autoPlay={true}
-            progress={0}
-            speed={1}
-          />
-          <DayText>{day}</DayText>
-        </DayIcon>
-        <View>
-          <WeatherText>{forecast.weather[0].main}</WeatherText>
-          <TempText>
-            {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
-          </TempText>
-        </View>
-      </Container>
-    </StyledTouchableScale>
+    <Container>
+      <DayIcon>
+        <WeatherIcon
+          source={weatherIcons[forecast.weather[0].icon]}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          speed={1}
+        />
+        <DayText>{day}</DayText>
+      </DayIcon>
+      <View>
+        <WeatherText>{forecast.weather[0].main}</WeatherText>
+        <TempText>
+          {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
+        </TempText>
+      </View>
+    </Container>
   );
 };
 
@@ -38,7 +35,8 @@ const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 7px;
+  border-radius: ${RFValue(10)}px;
+  border: 1px ${({ theme }) => theme.colors.border};
   margin-bottom: ${RFValue(7)}px;
   padding-horizontal: ${RFValue(10)}px;
   background-color: ${({ theme }) => theme.colors.backgroundAlt};

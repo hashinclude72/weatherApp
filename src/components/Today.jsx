@@ -14,6 +14,7 @@ import { round, weatherIcons, rootNavigation } from '../utils';
 
 export default () => {
   const weather = useSelector((state) => state.weather);
+  const forecast = useSelector((state) => state.forecast);
   const themeContext = useContext(ThemeContext);
 
   useEffect(() => {
@@ -23,7 +24,9 @@ export default () => {
   return (
     <Container>
       <StyledTouchableScale
-        onPress={() => rootNavigation.navigate('DayDetails')}
+        onPress={() =>
+          rootNavigation.navigate('DayDetails', { forecast: forecast.daily[0] })
+        }
       >
         <Today>
           <LiveTime />
@@ -52,7 +55,11 @@ export default () => {
         }}
         onPress={() => rootNavigation.navigate('Settings')}
       >
-        <IconI name="settings-sharp" size={RFValue(25)} color="white" />
+        <IconI
+          name="settings-sharp"
+          size={RFValue(25)}
+          color={themeContext.colors.icon}
+        />
       </SettingsContainer>
     </Container>
   );
