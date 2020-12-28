@@ -14,7 +14,6 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'storage': {
-      console.log('rootReducer storage : ');
       return {
         ...state,
         weather: action.payload.weather || initialState.weather,
@@ -25,7 +24,6 @@ const rootReducer = (state = initialState, action) => {
       };
     }
     case 'weather': {
-      console.log('rootReducer weather : ');
       weather.set(action.payload);
       return {
         ...state,

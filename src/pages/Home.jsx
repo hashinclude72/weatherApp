@@ -10,6 +10,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Error from '../components/Error';
 import WeekDays from '../components/WeekDays';
 import Today from '../components/Today';
+import HourlyTimeline from '../components/HourlyTimeline';
 import { useWeather, useStorage } from '../utils';
 
 export default ({ navigation }) => {
@@ -55,9 +56,7 @@ export default ({ navigation }) => {
             <Today />
             <WeekDays />
           </View>
-          <View style={{ height: 50 }}>
-            <Text>text</Text>
-          </View>
+          <HourlyTimeline />
         </ScrollView>
       ) : (
         error && <Error getWeather={getWeather} />

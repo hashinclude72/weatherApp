@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 
 import styled, { css } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -20,12 +19,12 @@ export default ({ day, forecast }) => {
         />
         <DayText>{day}</DayText>
       </DayIcon>
-      <View>
+      <WeatherTemp>
         <WeatherText>{forecast.weather[0].main}</WeatherText>
         <TempText>
           {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
         </TempText>
-      </View>
+      </WeatherTemp>
     </Container>
   );
 };
@@ -37,8 +36,8 @@ const Container = styled.View`
   align-items: center;
   border-radius: ${RFValue(10)}px;
   border: 1px ${({ theme }) => theme.colors.border};
-  margin-bottom: ${RFValue(7)}px;
-  padding-horizontal: ${RFValue(10)}px;
+  margin-top: ${RFValue(7)}px;
+  padding-horizontal: ${RFValue(15)}px;
   background-color: ${({ theme }) => theme.colors.backgroundAlt};
 `;
 
@@ -61,6 +60,11 @@ const DayText = styled.Text`
   ${text}
   margin-left: ${RFValue(15)}px;
   font-size: ${RFValue(25)}px;
+`;
+
+const WeatherTemp = styled.View`
+  height: 100%;
+  justify-content: center;
 `;
 
 const WeatherText = styled.Text`

@@ -58,5 +58,6 @@ export default () => {
 const Container = styled.View`
   flex: 1;
   justify-content: space-around;
-  padding-horizontal: ${RFValue(10)}px;
+  margin: ${RFValue(10)}px;
+  margin-top: 0px;
 `;

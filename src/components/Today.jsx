@@ -109,7 +109,7 @@ const WeatherText = styled(BaseText)`
 const SettingsContainer = styled.Pressable`
   position: absolute;
   right: ${RFValue(20)}px;
-  bottom: ${RFValue(15)}px;
+  bottom: ${RFValue(0)}px;
   border-radius: 50px;
   padding: ${RFValue(7)}px;
 `;
