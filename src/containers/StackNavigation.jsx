@@ -50,6 +50,7 @@ export default () => {
           headerPressColorAndroid: themeContext.colors.buttonPress,
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
+          headerShown: true,
           headerTitleStyle: {
             fontSize: RFValue(18),
           },

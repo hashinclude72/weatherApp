@@ -1,26 +1,39 @@
 import { createStore } from 'redux';
+import moment from 'moment';
 import { weather, forecast, units, timeFormat, theme } from './storage';
 
 const initialState = {
   weather: null,
   forecast: null,
   error: null,
-  isLoading: true,
+  isLoading: false,
   units: 'metric',
   timeFormat: '24',
   theme: 'black',
+  clickedIndex: 0,
+  daily: [],
+  hasData: false,
+  lastFetched: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'storage': {
+      console.log('storage fetch');
+
       return {
         ...state,
-        weather: action.payload.weather || initialState.weather,
-        forecast: action.payload.forecast || initialState.forecast,
-        timeFormat: action.payload.timeFormat || initialState.timeFormat,
-        units: action.payload.units || initialState.units,
-        theme: action.payload.theme || initialState.theme,
+        weather: action.payload.weather || state.weather,
+        forecast: action.payload.forecast || state.forecast,
+        timeFormat: action.payload.timeFormat || state.timeFormat,
+        units: action.payload.units || state.units,
+        theme: action.payload.theme || state.theme,
+        daily: action.payload.forecast.daily || state.daily,
+        hasData:
+          action.payload.weather && action.payload.forecast
+            ? true
+            : state.hasData,
+        lastFetched: action.payload.weather.dt * 1000 || state.lastFetched,
       };
     }
     case 'weather': {
@@ -28,6 +41,8 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         weather: action.payload,
+        hasData: state.forecast ? true : state.hasData,
+        lastFetched: moment(),
       };
     }
     case 'onecall': {
@@ -35,6 +50,9 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         forecast: action.payload,
+        daily: action.payload.daily,
+        hasData: state.weather ? true : state.hasData,
+        lastFetched: moment(),
       };
     }
     case 'error': {

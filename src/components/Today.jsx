@@ -1,68 +1,69 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
+
 import IconI from 'react-native-vector-icons/Ionicons';
 import { ThemeContext } from 'styled-components';
-
 import LiveTime from './LiveTime';
 import { StyledTouchableScale } from './StyledComponents';
 import { round, weatherIcons, rootNavigation } from '../utils';
 
+const SettingsIcon = () => {
+  const themeContext = useContext(ThemeContext);
+  return (
+    <SettingsContainer
+      android_ripple={{
+        color: themeContext.colors.buttonPress,
+        borderless: true,
+        radius: RFValue(22),
+      }}
+      onPress={() => rootNavigation.navigate('Settings')}
+    >
+      <IconI
+        name="settings-sharp"
+        size={RFValue(25)}
+        color={themeContext.colors.icon}
+      />
+    </SettingsContainer>
+  );
+};
+
 export default () => {
   const weather = useSelector((state) => state.weather);
-  const forecast = useSelector((state) => state.forecast);
-  const themeContext = useContext(ThemeContext);
 
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
-  return (
-    <Container>
-      <StyledTouchableScale
-        onPress={() =>
-          rootNavigation.navigate('DayDetails', { forecast: forecast.daily[0] })
-        }
-      >
-        <Today>
-          <LiveTime />
-          <IconContainer>
-            <WeatherIcon
-              source={weatherIcons[weather.weather[0].icon]}
-              loop={true}
-              autoPlay={true}
-              progress={0}
-              speed={1}
-            />
-            <BaseText>{round(weather.main.temp)}&deg;</BaseText>
-          </IconContainer>
-          <LocationText>{weather.name}</LocationText>
-          <FeelsText>
-            Feels Like {round(weather.main.feels_like)}&deg;
-          </FeelsText>
-          <WeatherText>{weather.weather[0].main}</WeatherText>
-        </Today>
-      </StyledTouchableScale>
-      <SettingsContainer
-        android_ripple={{
-          color: themeContext.colors.buttonPress,
-          borderless: true,
-          radius: RFValue(22),
-        }}
-        onPress={() => rootNavigation.navigate('Settings')}
-      >
-        <IconI
-          name="settings-sharp"
-          size={RFValue(25)}
-          color={themeContext.colors.icon}
-        />
-      </SettingsContainer>
-    </Container>
-  );
+  return useMemo(() => {
+    console.log('render today');
+    return (
+      <Container>
+        <StyledTouchableScale
+          onPress={() => rootNavigation.navigate('DayDetails', { index: 0 })}
+        >
+          <Today>
+            <LiveTime />
+            <IconContainer>
+              <WeatherIcon
+                source={weatherIcons[weather.weather[0].icon].animation}
+                loop={true}
+                autoPlay={true}
+                progress={0}
+                speed={1}
+              />
+              <BaseText>{round(weather.main.temp)}&deg;</BaseText>
+            </IconContainer>
+            <LocationText>{weather.name}</LocationText>
+            <FeelsText>
+              Feels Like {round(weather.main.feels_like)}&deg;
+            </FeelsText>
+            <WeatherText>{weather.weather[0].main}</WeatherText>
+          </Today>
+        </StyledTouchableScale>
+        <SettingsIcon />
+      </Container>
+    );
+  }, [weather]);
 };
 
 const Container = styled.View`

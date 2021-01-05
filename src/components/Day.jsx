@@ -1,32 +1,38 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styled, { css } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import LottieView from 'lottie-react-native';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 import { round, weatherIcons } from '../utils';
 
-export default ({ day, forecast }) => {
-  return (
-    <Container>
-      <DayIcon>
-        <WeatherIcon
-          source={weatherIcons[forecast.weather[0].icon]}
-          loop={true}
-          autoPlay={true}
-          progress={0}
-          speed={1}
-        />
-        <DayText>{day}</DayText>
-      </DayIcon>
-      <WeatherTemp>
-        <WeatherText>{forecast.weather[0].main}</WeatherText>
-        <TempText>
-          {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
-        </TempText>
-      </WeatherTemp>
-    </Container>
-  );
+export default ({ index }) => {
+  const forecast = useSelector((state) => state.daily[index]);
+  return useMemo(() => {
+    console.log('render day : ', index);
+    return (
+      <Container>
+        <DayIcon>
+          <WeatherIcon
+            source={weatherIcons[forecast.weather[0].icon].animation}
+            loop={true}
+            autoPlay={true}
+            progress={0}
+            speed={1}
+          />
+          <DayText>{moment(forecast.dt * 1000).format('dddd')}</DayText>
+        </DayIcon>
+        <WeatherTemp>
+          <WeatherText>{forecast.weather[0].main}</WeatherText>
+          <TempText>
+            {round(forecast.temp.max)}&deg; / {round(forecast.temp.min)}&deg;
+          </TempText>
+        </WeatherTemp>
+      </Container>
+    );
+  }, [forecast]);
 };
 
 const Container = styled.View`
@@ -50,6 +56,7 @@ const DayIcon = styled.View`
 const WeatherIcon = styled(LottieView)`
   width: ${RFValue(30)}px;
   height: ${RFValue(30)}px;
+  elevation: 4;
 `;
 
 const text = css`

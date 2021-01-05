@@ -119,7 +119,7 @@ const DropSetting = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: ${RFValue(45)}px;
+  height: ${RFValue(40)}px;
   margin-bottom: ${RFValue(5)}px;
   border-radius: 30px;
 `;

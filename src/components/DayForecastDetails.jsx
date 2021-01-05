@@ -1,35 +1,73 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import Feather from 'react-native-vector-icons/Feather';
 import { ThemeContext } from 'styled-components';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-const Card = ({ heading, sunHeading, icon }) => {
-  return (
-    <StyledCard>
-      <CardContent>
-        <CardHeading>{heading}</CardHeading>
-        <CardSubHeading>{sunHeading}</CardSubHeading>
-      </CardContent>
-      {icon}
-    </StyledCard>
-  );
+const Card = ({ heading, subHeading, icon }) => {
+  return useMemo(() => {
+    console.log('render day forecast Deails : ', heading);
+    return (
+      <StyledCard>
+        <CardContent>
+          <CardHeading>{heading}</CardHeading>
+          <CardSubHeading>{subHeading}</CardSubHeading>
+        </CardContent>
+        {icon}
+      </StyledCard>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subHeading]);
 };
 
-export default ({ forecast }) => {
+export default ({ index }) => {
+  const forecast = useSelector((state) => state.daily[index]);
+  const timeFormat = useSelector((state) => state.timeFormat);
   const units = useSelector((state) => state.units);
   const themeContext = useContext(ThemeContext);
   const iconSize = RFValue(30);
+
+  const timeString = (sec) => {
+    if (timeFormat === '24') return moment(sec * 1000).format('HH:mm');
+    return moment(sec * 1000).format('h:m A');
+  };
+
   return (
-    <>
+    <Container>
+      <BoxRow>
+        <Card
+          heading="Sunrise"
+          subHeading={timeString(forecast.sunrise)}
+          icon={
+            <Feather
+              name="sunrise"
+              size={iconSize}
+              color={themeContext.colors.icon}
+            />
+          }
+        />
+        <Card
+          heading="Sunset"
+          subHeading={timeString(forecast.sunset)}
+          icon={
+            <Feather
+              name="sunset"
+              size={iconSize}
+              color={themeContext.colors.icon}
+            />
+          }
+        />
+      </BoxRow>
       <BoxRow>
         <Card
           heading="UVI"
-          sunHeading={forecast.uvi}
+          subHeading={forecast.uvi}
           icon={
             <Fontisto
               name="day-sunny"
@@ -40,7 +78,7 @@ export default ({ forecast }) => {
         />
         <Card
           heading="Wind speed"
-          sunHeading={`${forecast.wind_speed} ${
+          subHeading={`${forecast.wind_speed} ${
             units === 'metric' ? 'm/s' : 'mi/h'
           }`}
           icon={
@@ -55,7 +93,7 @@ export default ({ forecast }) => {
       <BoxRow>
         <Card
           heading="Humidity"
-          sunHeading={`${forecast.humidity}%`}
+          subHeading={`${forecast.humidity}%`}
           icon={
             <MaterialCommunityIcons
               name="water-percent"
@@ -66,7 +104,7 @@ export default ({ forecast }) => {
         />
         <Card
           heading="Pressure"
-          sunHeading={`${forecast.pressure} hPa`}
+          subHeading={`${forecast.pressure} hPa`}
           icon={
             <Ionicons
               name="speedometer-outline"
@@ -79,7 +117,7 @@ export default ({ forecast }) => {
       <BoxRow>
         <Card
           heading="Cloud cover"
-          sunHeading={`${forecast.clouds}%`}
+          subHeading={`${forecast.clouds}%`}
           icon={
             <Ionicons
               name="cloud-outline"
@@ -90,7 +128,7 @@ export default ({ forecast }) => {
         />
         <Card
           heading="Dew point"
-          sunHeading={`${forecast.dew_point} ${
+          subHeading={`${forecast.dew_point} ${
             units === 'metric' ? '⁰C' : '⁰F'
           }`}
           icon={
@@ -102,9 +140,14 @@ export default ({ forecast }) => {
           }
         />
       </BoxRow>
-    </>
+    </Container>
   );
 };
+
+const Container = styled.View`
+  margin: ${RFValue(20)}px;
+  margin-top: 0px;
+`;
 
 const BoxRow = styled.View`
   flex-direction: row;

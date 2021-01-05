@@ -42,7 +42,7 @@ export default () => {
         Geolocation.getCurrentPosition(
           // get current location from native GPS service
           (position) => {
-            console.log('get location');
+            console.log('location fetched');
             setIsLoading(false);
             setData({
               latitude: position.coords.latitude,
@@ -50,7 +50,7 @@ export default () => {
             });
           },
           (err) => {
-            console.log(err.code, err.message);
+            console.error(err.code, err.message);
             setError(err.message);
             setIsLoading(false);
           },

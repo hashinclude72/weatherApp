@@ -105,7 +105,7 @@ export default () => {
         setForecastLoading(false);
       }
     } catch (err) {
-      console.log('Connection failed');
+      console.error('Connection failed');
       setError('Connection Failed');
       setIsLoading(false);
     }

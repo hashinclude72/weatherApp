@@ -10,24 +10,15 @@
         />
 
     <item
-        android:width="200dp"
-        android:height="200dp"
+        android:width="100dp"
+        android:height="100dp"
         android:gravity="center|center_horizontal|center_vertical">
         <bitmap
-            android:width="200dp"
-            android:height="200dp"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|end|top|bottom|center|center_horizontal|center_vertical"
             android:src="@drawable/loader" />
         </item>
-
-    <!-- <item
-        android:width="200dp"
-        android:height="200dp"
-        android:gravity="center">
-        <bitmap
-            android:gravity="left|right|top|bottom|center|center_horizontal|center_vertical"
-            android:src="@drawable/loader" />
-        </item> -->
 
 </layer-list>
 

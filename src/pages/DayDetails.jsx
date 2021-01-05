@@ -1,30 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components/native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { ThemeContext } from 'styled-components';
-import { useSelector } from 'react-redux';
 
-import DayDetailsBox from '../components/DayDetailsBox';
+import DailyTimeline from '../components/DailyTimeline';
+import DayForecastDetails from '../components/DayForecastDetails';
 
 export default ({ route }) => {
-  const units = useSelector((state) => state.units);
-  const themeContext = useContext(ThemeContext);
-  const { forecast } = route.params;
+  const { index } = route.params;
+  const [dayClicked, setDayClicked] = useState(index);
+  console.log('render day details ');
   return (
     <Container>
-      <DailyTimeline></DailyTimeline>
-      <DayDetailsBox forecast={forecast} />
+      <DailyTimeline dayClicked={dayClicked} onPress={setDayClicked} />
+      <DayForecastDetails index={dayClicked} />
     </Container>
   );
 };
 
 const Container = styled.View`
   flex: 1;
-  padding: ${RFValue(10)}px;
   background-color: ${({ theme }) => theme.colors.background};
-`;
-
-const DailyTimeline = styled.View`
-  flex-grow: 1;
 `;

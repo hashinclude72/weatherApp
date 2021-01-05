@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:layout_gravity="start|end|top|bottom|center|center_horizontal|center_vertical"
     android:background="@color/dark"
-    android:fitsSystemWindows="true"
+    android:statusBarColor="@color/transparent"
     tools:context=".MainActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lav_main"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_marginBottom="12pt"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="14pt"
         android:layout_gravity="start|end|top|bottom|center|center_horizontal|center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

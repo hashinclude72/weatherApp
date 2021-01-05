@@ -5,7 +5,7 @@ const getItem = (key) => {
   try {
     return AsyncStorage.getItem(key);
   } catch (e) {
-    console.log('error getting', key, ': ', e);
+    console.error('error getting', key, ': ', e);
   }
 };
 
@@ -14,7 +14,7 @@ const getData = async (key) => {
     const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
-    console.log('error getting', key, ': ', e);
+    console.error('error getting', key, ': ', e);
   }
 };
 
@@ -22,7 +22,7 @@ const setItem = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (e) {
-    console.log('error setting', key, ': ', e);
+    console.error('error setting', key, ': ', e);
   }
 };
 
@@ -31,7 +31,7 @@ const setData = async (key, value) => {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
-    console.log('error setting', key, ': ', e);
+    console.error('error setting', key, ': ', e);
   }
 };
 
@@ -39,7 +39,7 @@ const removeItem = async (key) => {
   try {
     await AsyncStorage.removeItem(key);
   } catch (e) {
-    console.log('error removing', key, ': ', e);
+    console.error('error removing', key, ': ', e);
   }
 };
 
@@ -47,7 +47,7 @@ const clearStorage = async () => {
   try {
     await AsyncStorage.clear();
   } catch (e) {
-    console.log('error clearAll : ', e);
+    console.error('error clearAll : ', e);
   }
 };
 

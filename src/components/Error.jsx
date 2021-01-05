@@ -1,13 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
+import SplashScreen from 'react-native-splash-screen';
 
 export default ({ getWeather }) => {
   const error = useSelector((state) => state.error);
   const themeContext = useContext(ThemeContext);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <Container>

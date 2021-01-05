@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { RefreshControl, View, Text, Dimensions } from 'react-native';
+import React, { useEffect, useContext, useLayoutEffect, useMemo } from 'react';
+import { RefreshControl, View, Dimensions } from 'react-native';
 
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
@@ -16,53 +16,63 @@ import { useWeather, useStorage } from '../utils';
 export default ({ navigation }) => {
   const screenHeight = Dimensions.get('screen').height;
   const themeContext = useContext(ThemeContext);
-  const { error, isLoading, weather, forecast } = useSelector((state) => state);
+  const isLoading = useSelector((state) => state.isLoading);
+  const hasData = useSelector((state) => state.hasData);
+  const error = useSelector((state) => state.error);
+
   const { getWeather } = useWeather();
   const fetchStorage = useStorage();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
-    getWeather();
+  }, []);
+
+  useEffect(() => {
     fetchStorage();
+    getWeather();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (error) {
-      Toast.show(error, Toast.SHORT);
+      Toast.show(error, Toast.LONG, Toast.BOTTOM);
     }
   }, [error]);
-  return (
-    <Container>
-      {weather && forecast ? (
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              size={10}
-              refreshing={isLoading}
-              onRefresh={getWeather}
-              tintColor={themeContext.colors.primary}
-              progressBackgroundColor={themeContext.colors.backgroundAlt}
-              colors={[themeContext.colors.primary]}
-              progressViewOffset={RFValue(20)}
-            />
-          }
-        >
-          <View
-            style={{
-              height: screenHeight,
-            }}
+
+  return useMemo(() => {
+    console.log('render home');
+    return (
+      <Container>
+        {hasData ? (
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                size={10}
+                refreshing={isLoading}
+                onRefresh={getWeather}
+                tintColor={themeContext.colors.primary}
+                progressBackgroundColor={themeContext.colors.backgroundAlt}
+                colors={[themeContext.colors.primary]}
+                progressViewOffset={RFValue(20)}
+              />
+            }
           >
-            <Today />
-            <WeekDays />
-          </View>
-          <HourlyTimeline />
-        </ScrollView>
-      ) : (
-        error && <Error getWeather={getWeather} />
-      )}
-    </Container>
-  );
+            <View
+              style={{
+                height: screenHeight,
+              }}
+            >
+              <Today />
+              <WeekDays />
+            </View>
+            <HourlyTimeline />
+          </ScrollView>
+        ) : (
+          error && <Error getWeather={getWeather} />
+        )}
+      </Container>
+    );
+  }, [error, hasData, isLoading, themeContext]);
 };
 
 const Container = styled.View`
